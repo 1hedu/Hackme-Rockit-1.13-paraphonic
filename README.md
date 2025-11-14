@@ -1,12 +1,12 @@
-# ðŸŽ¹ Rockit Paraphonic Firmware v1.0
+Rockit Paraphonic Firmware v1.0
 
 **3-Voice Paraphonic Upgrade for HackMe Rockit Synthesizer**
 
-Transform your mono Rockit into a 3-voice paraphonic beast with intelligent voice allocation across DCO1, DCO2, and your external EF-101D!
+Transform your mono Rockit into a 3-voice paraphonic beast with intelligent voice allocation across DCO1, DCO2, and future external osc.
 
 ---
 
-## ðŸ“¦ What's Included
+## What's Included
 
 This complete build package contains:
 
@@ -28,36 +28,7 @@ This complete build package contains:
 
 ---
 
-## ðŸš€ Quick Start
-
-### Option 1: Manual Patching (RECOMMENDED)
-
-1. **Apply patches to source files:**
-   ```bash
-   # Edit eight_bit_synth_main.c according to main_patch.txt
-   # Edit midi.c according to midi_patch.txt
-   ```
-
-2. **Build:**
-   ```bash
-   make clean
-   make
-   ```
-
-3. **Program:**
-   ```bash
-   make program  # Using USBasp
-   # OR
-   make program-arduino  # Using Arduino as ISP
-   ```
-
-### Option 2: Pre-Patched Version
-
-If you want me to create pre-patched versions of the files, let me know!
-
----
-
-## ðŸŽ›ï¸ Voice Allocation Modes
+## Voice Allocation Modes
 
 ### Mode 1: Low Note Priority
 **MIDI CC 102: Values 0-42**
@@ -79,32 +50,8 @@ If you want me to create pre-patched versions of the files, let me know!
 
 ---
 
-## ðŸ”Œ Hardware Setup
 
-Your complete signal chain:
-
-```
-MIDI Controller
-      â†“
-  [Rockit with Paraphonic Firmware]
-   â”œâ”€ DCO1 (Internal) â”€â”€â”€â”€â”
-   â”œâ”€ DCO2 (Internal) â”€â”€â”€â”€â”¼â”€â†’ Mix â†’ Pre-Delay â†’ Filter â†’ VCA
-   â”œâ”€ MIDI OUT            â”‚                                â†“
-   â”‚      â†“               â”‚                             Output
-   â”‚  [Respeaker]         â”‚                                â†“
-   â”‚   - MIDIâ†’CV (I2C DAC)â”‚                       [Booster/Tube]
-   â”‚   - Onboard amp      â”‚                      (Switchable order)
-   â”‚      â†“               â”‚                                â†“
-   â”‚   [EF-101D] â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜                        [Stereo Splitter]
-   â”‚                                                 /           \
-   â””â”€â†’ [Monitor Speakers]                    [Chorus L]   [Chorus R]
-                                                   â†“             â†“
-                                              Output L      Output R
-```
-
----
-
-## ðŸ“ Modifications Summary
+## Modifications Summary
 
 ### Files Modified:
 1. **eight_bit_synth_main.c**
@@ -126,7 +73,7 @@ MIDI Controller
 
 ---
 
-## ðŸ”§ Technical Specifications
+## Technical Specifications
 
 **MCU:** ATMEGA164P/644  
 **Code Size:** ~2KB additional flash  
@@ -137,7 +84,7 @@ MIDI Controller
 
 ---
 
-## ðŸ’» Build Requirements
+## Build Requirements
 
 ### Software:
 - avr-gcc compiler
@@ -152,7 +99,7 @@ MIDI Controller
 
 ---
 
-## ðŸŽ¨ Example Patches
+## Example Patches
 
 ### "Juno Pad" (Classic warm pad)
 - Mode: Round Robin
@@ -179,7 +126,7 @@ MIDI Controller
 
 ---
 
-## âš™ï¸ Customization
+## Customization
 
 ### Change Default Mode
 Edit `rockit_paraphonic.c`, line 62:
@@ -198,64 +145,9 @@ Edit `rockit_paraphonic.h`, change:
 ```c
 unsigned char note_stack[16];  // Change 16 to desired size (8-32 recommended)
 ```
-
 ---
 
-## ðŸ› Troubleshooting
-
-### Compilation Errors
-
-**Error: "rockit_paraphonic.h: No such file"**
-- Solution: Make sure rockit_paraphonic.c and .h are in same directory as other source files
-
-**Error: "undefined reference to paraphonic_init"**
-- Solution: Check that rockit_paraphonic.c is listed in Makefile CSRCS
-
-**Error: "conflicting types for g_setting"**
-- Solution: Make sure eight_bit_synth_main.h is included before rockit_paraphonic.h
-
-### Runtime Issues
-
-**Notes stick or don't turn off**
-- Check MIDI cable connections
-- Verify note-off messages are being sent
-- Try sending CC 123 (All Notes Off)
-
-**EF-101D not tracking pitch**
-- Verify MIDI OUT from Rockit to Respeaker
-- Check Respeaker DAC calibration (should be 1V/octave)
-- Use MIDI monitor to verify notes are being transmitted
-
-**Round Robin not working**
-- Make sure you're sending note-off between notes
-- Check that velocity > 0 on note-on messages
-- Mode may need to be re-selected (send CC 102)
-
-**Voices overlap/muddy sound**
-- This can be intentional with pre-delay!
-- Try reducing pre-delay mix
-- Experiment with different filter settings
-
-### Hardware Issues
-
-**Respeaker not responding**
-- Check I2C connections to DAC
-- Verify Respeaker firmware is loaded
-- Test DAC output with multimeter
-
-**Pre-delay not working**
-- Verify delay pedal is inserted BEFORE filter in Rockit signal path
-- Check delay mix and time settings
-- Make sure delay is powered on
-
-**Chorus not stereo**
-- Verify both chorus pedals are connected
-- Check that Rate pot wiper is inverted on slave chorus
-- Test each chorus independently
-
----
-
-## ðŸ“š Documentation
+## Documentation
 
 **Must Read:**
 1. **main_patch.txt** - Required code changes for eight_bit_synth_main.c
@@ -266,25 +158,7 @@ unsigned char note_stack[16];  // Change 16 to desired size (8-32 recommended)
 - **QUICK_REFERENCE.md** - Mode guide, patches, tips
 - **CHECKLIST.md** - Implementation tracker
 
----
-
-## ðŸŽ¯ Selling Points
-
-When you list this synth for sale, emphasize:
-
-âœ… **3-voice paraphonic** (rare in DIY/kit synths)  
-âœ… **Three intelligent voice modes** (Low/Last/Round Robin)  
-âœ… **Juno-inspired architecture** (DCOs â†’ Chorus)  
-âœ… **Pre-filter delay** (unique modulation possibilities)  
-âœ… **Switchable tube/booster** (two distinct overdrive characters)  
-âœ… **Custom firmware** (shows technical skill)  
-âœ… **8-bit + analog hybrid** (best of both worlds)  
-âœ… **Monitor speakers** (built-in preview system)  
-âœ… **Stereo chorus** (with inverted LFO for width)  
-
----
-
-## ðŸ“„ License
+## License
 
 **GNU GPLv3** - Same as original Rockit
 
@@ -296,22 +170,22 @@ This means you can:
 
 **Attribution:**
 - Original Rockit: Matt Heins / HackMe Electronics
-- Paraphonic firmware: [Your Name]
+- Paraphonic firmware: [1d4r3k]
 - Juno architecture inspiration: Roland Corporation
 
 ---
 
-## ðŸ™ Credits
+## Credits
 
-**Paraphonic Firmware:** [Your Name]  
+**Paraphonic Firmware:** [1d4r3k]  
 **Based On:** HackMe Rockit by Matt Heins  
-**Inspired By:** Roland Juno series, Sequential Circuits  
+
 
 Special thanks to the open-source synth DIY community!
 
 ---
 
-## ðŸ“ž Support & Contact
+## Support & Contact
 
 **Issues?** Check the troubleshooting section above.
 
@@ -324,7 +198,7 @@ Special thanks to the open-source synth DIY community!
 
 ---
 
-## ðŸŽ‰ Ready to Build!
+## Ready to Build!
 
 1. Read main_patch.txt and midi_patch.txt
 2. Apply the patches to the source files
@@ -338,6 +212,3 @@ Special thanks to the open-source synth DIY community!
 
 **Version:** 1.0  
 **Date:** November 2025  
-**Status:** Production Ready  
-
-ðŸŽ¹ Now go make that Juno-inspired beast and get paid! ðŸš€
