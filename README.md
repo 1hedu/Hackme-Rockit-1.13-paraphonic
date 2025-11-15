@@ -1,4 +1,4 @@
-Rockit Paraphonic Firmware v1.0
+Rockit Firmware v1.13
 
 **3-Voice Paraphonic Upgrade for HackMe Rockit Synthesizer**
 
